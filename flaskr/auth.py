@@ -53,8 +53,8 @@ def register():
         
         if error is None:
             db.execute(
-            'INSERT INTO user (username, password) VALUES (?, ?)',
-            (username, generate_password_hash(password))
+                'INSERT INTO user (username, password) VALUES (?, ?)',
+                (username, generate_password_hash(password))
             )
             
             db.commit()
@@ -65,7 +65,7 @@ def register():
     return render_template('auth/register.html')
 
 
-@bp.route('login', methods=('GET','POST'))
+@bp.route('/login', methods=('GET','POST'))
 def login():
     # GET, and POST works the same way as register
     if request.method == 'POST':
@@ -75,7 +75,7 @@ def login():
         error = None
         
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)    
+            'SELECT * FROM user WHERE username = ?', (username,)   
         ).fetchone()
         
         if user is None:

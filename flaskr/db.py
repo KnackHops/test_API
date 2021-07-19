@@ -2,7 +2,6 @@ import sqlite3
 
 import click
 from flask import current_app, g
-from flask.cli import with_appcontext
 
 def get_db():
     if 'db' not in g:
@@ -17,7 +16,7 @@ def get_db():
         )
         g.db.row_factory = sqlite3.Row
         
-        return g.db
+    return g.db
 
 def init_db():
     db = get_db()
@@ -28,13 +27,12 @@ def init_db():
 # command 'init-db' is registered in flask.
 # this will execute init_db_command, in return would execut the actual init_db 
 @click.command('init-db')
-@with_appcontext
 def init_db_command():
     init_db()
     click.echo("Initialized the database")
     
 def close_db(e=None):
-    db = g.pop('db',None)
+    db = g.pop('db', None)
     
     if db is not None:
         db.close()

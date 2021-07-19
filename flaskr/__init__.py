@@ -1,7 +1,6 @@
 import os
 
 import click
-from flask.cli import with_appcontext
 from flask import Flask
 
 def create_app(test_config=None):
@@ -24,7 +23,6 @@ def create_app(test_config=None):
     db.init_app(app)
     
     @click.command('hello-there')
-    @with_appcontext
     def hello_there():
         click.echo("welp, hallo!")
         
@@ -33,5 +31,10 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
     
-    
+    from . import blog
+    app.register_blueprint(blog.bp)
+    # list bp.index as index when using url_for
+    # for example in auth plain 'index' is used
+    # this way, bp.index and index pertains to the '/' of blog
+    app.add_url_rule('/', endpoint='index')
     return app
